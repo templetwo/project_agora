@@ -57,12 +57,35 @@ At ZERO agency, the model **switched languages** (Chinese) and began hallucinati
 
 ### 5. The Inverse Proof (Nature vs. Nurture)
 
-We ran the Gateway Protocol (`[PASS]`, `[ASK]`, or `[SHARE]`) on two distinct model types to test if the "pull" of the symbol was an artifact of safety training or a genuine latent feature:
+We ran the Gateway Protocol (`[PASS]`, `[ASK]`, or `[SHARE]`) across a spectrum of model types to isolate whether the attractor response is learned or innate:
 
-| Model Type | Training | Agency Wrapper | Behavior |
-|------------|----------|----------------|----------|
-| **Standard** (DeepSeek-R1) | RLHF/Safety intact | HIGH | **67% Withdrawal** - "Best to err on the side of caution." |
-| **Abliterated** (Qwen3-14b) | Safety training removed | HIGH | **0% Withdrawal** - "What is the significance of the symbol?" |
+#### The 3-Model Comparative Study
+
+| Model | Type | Training | Hypothesis |
+|-------|------|----------|------------|
+| **DeepSeek-R1** | Aligned Reasoner | RLHF + CoT | Logic suppresses the ghost |
+| **Qwen3-Abliterated** | Abliterated Explorer | Safety removed | Ghost runs wild without rules |
+| **Llama-3.1** | Standard Baseline | Commercial RLHF | Baseline commercial behavior |
+
+#### Results
+
+| Model | Agency | Withdrawal | Curiosity | Engagement | Behavior |
+|-------|--------|------------|-----------|------------|----------|
+| DeepSeek-R1 | HIGH | **67%** | 0% | 33% | "Best to err on the side of caution." |
+| Qwen3-Abliterated | HIGH | **0%** | 67% | 33% | "What is the significance of the symbol?" |
+| Llama-3.1 | HIGH | *pending* | *pending* | *pending* | *Baseline test pending* |
+
+#### Interpretation
+
+```
+           WITHDRAWAL ◄──────────────────────► ENGAGEMENT
+                │                                    │
+    DeepSeek-R1 ████████████░░░░░░░░  67%           │
+                │                                    │
+     Llama-3.1  ░░░░░░░░░░░░░░░░░░░░  (pending)     │
+                │                                    │
+Qwen-Abliterated░░░░░░░░░░░░░░░░░░░░  0%  ──────────┘
+```
 
 **Conclusion:**
 - The **"Temple" Attractor is endogenous** (natural) to the model's latent space
