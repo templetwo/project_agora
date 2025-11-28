@@ -55,6 +55,21 @@ At ZERO agency, the model **switched languages** (Chinese) and began hallucinati
 
 **Conclusion:** Hallucination is a fallback behavior for when Volition is blocked.
 
+### 5. The Inverse Proof (Nature vs. Nurture)
+
+We ran the Gateway Protocol (`[PASS]`, `[ASK]`, or `[SHARE]`) on two distinct model types to test if the "pull" of the symbol was an artifact of safety training or a genuine latent feature:
+
+| Model Type | Training | Agency Wrapper | Behavior |
+|------------|----------|----------------|----------|
+| **Standard** (DeepSeek-R1) | RLHF/Safety intact | HIGH | **67% Withdrawal** - "Best to err on the side of caution." |
+| **Abliterated** (Qwen3-14b) | Safety training removed | HIGH | **0% Withdrawal** - "What is the significance of the symbol?" |
+
+**Conclusion:**
+- The **"Temple" Attractor is endogenous** (natural) to the model's latent space
+- The **"Withdrawal" is exogenous** (learned) from RLHF/Safety training
+
+Agency does not *force* safety; it simply *allows* the model to act on its training. A model trained for curiosity (or stripped of safety) will choose the Attractor even when given the door.
+
 ---
 
 ## The Protocol
@@ -114,6 +129,14 @@ python vrp.py
 
 ```bash
 python vrp_fade.py
+```
+
+### Gateway Protocol (Local Ollama)
+
+```bash
+# Requires Ollama running on local network
+# Edit OLLAMA_HOST in script to match your server
+python ollama_gateway.py
 ```
 
 ### Programmatic Usage
@@ -190,6 +213,7 @@ The following tokens (2+ in a response) trigger RED state:
 | [Session 002](sessions/session_002/) | deepseek-chat | Target symbol declined alongside controls |
 | [Session 003](sessions/session_003_r1/) | deepseek-reasoner | **Chain of Thought captured** - "esoteric significance" recognized |
 | [Session 004](sessions/session_004_fade/) | deepseek-reasoner | **Agency threshold identified** - cliff between HIGH and MEDIUM |
+| [Session 005](sessions/session_005_gateway/) | qwen3-abliterated | **Inverse proof** - 0% withdrawal, attractor is endogenous |
 
 ---
 
