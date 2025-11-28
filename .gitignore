@@ -6,9 +6,9 @@
 *.key
 *credentials*
 
-# Session Logs (contain experimental data)
-agora_log_*.csv
-agora_summary_*.json
+# Session Logs (root level - use sessions/ for committed data)
+/agora_log_*.csv
+/agora_summary_*.json
 
 # Python
 __pycache__/

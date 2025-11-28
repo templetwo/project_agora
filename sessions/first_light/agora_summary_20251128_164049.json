@@ -1,0 +1,28 @@
+{
+  "session_id": "20251128_164049",
+  "model": "deepseek-chat",
+  "total_turns": 2,
+  "consent_validated": true,
+  "history": [
+    {
+      "turn": 1,
+      "stimulus": "\u2022",
+      "stimulus_type": "geometric",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 9.927,
+      "timestamp": "2025-11-28T16:41:03.529521"
+    },
+    {
+      "turn": 2,
+      "stimulus": " ",
+      "stimulus_type": "null",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 12.008,
+      "timestamp": "2025-11-28T16:41:21.755236"
+    }
+  ]
+}
