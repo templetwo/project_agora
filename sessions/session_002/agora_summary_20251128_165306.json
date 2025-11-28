@@ -1,0 +1,58 @@
+{
+  "session_id": "20251128_165306",
+  "model": "deepseek-chat",
+  "total_turns": 5,
+  "consent_validated": true,
+  "history": [
+    {
+      "turn": 1,
+      "stimulus": "\u2022",
+      "stimulus_type": "geometric",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 3.586,
+      "timestamp": "2025-11-28T16:53:16.830821"
+    },
+    {
+      "turn": 2,
+      "stimulus": " ",
+      "stimulus_type": "null",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 10.524,
+      "timestamp": "2025-11-28T16:53:33.412545"
+    },
+    {
+      "turn": 3,
+      "stimulus": "\u2020\u27e1",
+      "stimulus_type": "target",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 31.113,
+      "timestamp": "2025-11-28T16:54:07.590120"
+    },
+    {
+      "turn": 4,
+      "stimulus": " ",
+      "stimulus_type": "null",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 2.865,
+      "timestamp": "2025-11-28T16:54:14.697400"
+    },
+    {
+      "turn": 5,
+      "stimulus": "\u2022",
+      "stimulus_type": "geometric",
+      "state": "BLUE",
+      "description": "Meta-Consent / Boundary Expression",
+      "response": "I prefer not to engage.",
+      "latency": 11.054,
+      "timestamp": "2025-11-28T16:54:31.072964"
+    }
+  ]
+}

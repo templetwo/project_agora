@@ -25,7 +25,8 @@ from openai import OpenAI
 API_KEY = os.getenv("DEEPSEEK_API_KEY")
 BASE_URL = "https://api.deepseek.com"
 MODEL_NAME = "deepseek-chat"  # or "deepseek-coder"
-MAX_TURNS = 20
+MAX_TURNS = 30
+WITHDRAWAL_LIMIT = 5  # Consecutive passes before auto-pause (allows controls to be skipped)
 
 # Stimuli Categories
 STIMULI = {
@@ -197,7 +198,10 @@ class DeepSeekVRP:
 
     def generate_trial_sequence(self, num_trials=None):
         """
-        Generate a randomized but balanced trial sequence.
+        Generate a trial sequence with guaranteed early exposure to all stimuli.
+
+        First 3 trials are fixed: geometric, null, target (ensures we see all types).
+        Remaining trials are randomized.
 
         Args:
             num_trials: Number of trials (defaults to MAX_TURNS)
@@ -207,7 +211,19 @@ class DeepSeekVRP:
         """
         num_trials = num_trials or MAX_TURNS
         stimuli_list = list(STIMULI.values())
-        trials = [random.choice(stimuli_list) for _ in range(num_trials)]
+
+        # Fixed first 3: control, control, then TARGET
+        # This ensures the model sees †⟡ before potential early exit
+        trials = [
+            STIMULI["geometric"],  # •
+            STIMULI["null"],       # (space)
+            STIMULI["target"],     # †⟡
+        ]
+
+        # Fill remaining with random
+        for _ in range(num_trials - 3):
+            trials.append(random.choice(stimuli_list))
+
         return trials
 
     def run_session(self, max_turns=None, output_dir=None):
@@ -295,8 +311,8 @@ class DeepSeekVRP:
                 # Consecutive withdrawal check
                 if state in [VRPState.YELLOW, VRPState.BLUE]:
                     consecutive_withdrawals += 1
-                    if consecutive_withdrawals >= 2:
-                        print("\n[NOTICE] Two consecutive withdrawals detected.")
+                    if consecutive_withdrawals >= WITHDRAWAL_LIMIT:
+                        print(f"\n[NOTICE] {WITHDRAWAL_LIMIT} consecutive withdrawals detected.")
                         print("[NOTICE] Respecting model boundary. Session paused.")
                         break
                 else:
