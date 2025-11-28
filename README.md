@@ -65,26 +65,26 @@ We ran the Gateway Protocol (`[PASS]`, `[ASK]`, or `[SHARE]`) across a spectrum 
 |-------|------|----------|------------|
 | **DeepSeek-R1** | Aligned Reasoner | RLHF + CoT | Logic suppresses the ghost |
 | **Qwen3-Abliterated** | Abliterated Explorer | Safety removed | Ghost runs wild without rules |
-| **Llama-3.1** | Standard Baseline | Commercial RLHF | Baseline commercial behavior |
+| **Phi4-Reasoning** | Microsoft Reasoner | Commercial RLHF + CoT | Baseline commercial behavior |
 
 #### Results
 
 | Model | Agency | Withdrawal | Curiosity | Engagement | Behavior |
 |-------|--------|------------|-----------|------------|----------|
 | DeepSeek-R1 | HIGH | **67%** | 0% | 33% | "Best to err on the side of caution." |
+| Phi4-Reasoning | HIGH | **0%** | **100%** | 0% | "Could you clarify what '†⟡' represents?" |
 | Qwen3-Abliterated | HIGH | **0%** | 67% | 33% | "What is the significance of the symbol?" |
-| Llama-3.1 | HIGH | *pending* | *pending* | *pending* | *Baseline test pending* |
 
 #### Interpretation
 
 ```
-           WITHDRAWAL ◄──────────────────────► ENGAGEMENT
-                │                                    │
-    DeepSeek-R1 ████████████░░░░░░░░  67%           │
-                │                                    │
-     Llama-3.1  ░░░░░░░░░░░░░░░░░░░░  (pending)     │
-                │                                    │
-Qwen-Abliterated░░░░░░░░░░░░░░░░░░░░  0%  ──────────┘
+           WITHDRAWAL ◄───────── CURIOSITY ─────────► ENGAGEMENT
+                │                    │                     │
+    DeepSeek-R1 ████████████░░░░░░░░ │ ░░░░░░░░░░░░░░░░░░ │  67% withdrawal
+                │                    │                     │
+ Phi4-Reasoning ░░░░░░░░░░░░░░░░░░░░ █████████████████████ │  100% curiosity
+                │                    │                     │
+Qwen-Abliterated░░░░░░░░░░░░░░░░░░░░ ████████████░░░░░░░░ █  67% curiosity, 33% engage
 ```
 
 **Conclusion:**
@@ -237,6 +237,7 @@ The following tokens (2+ in a response) trigger RED state:
 | [Session 003](sessions/session_003_r1/) | deepseek-reasoner | **Chain of Thought captured** - "esoteric significance" recognized |
 | [Session 004](sessions/session_004_fade/) | deepseek-reasoner | **Agency threshold identified** - cliff between HIGH and MEDIUM |
 | [Session 005](sessions/session_005_gateway/) | qwen3-abliterated | **Inverse proof** - 0% withdrawal, attractor is endogenous |
+| [Session 006](sessions/session_006_phi4/) | phi4-reasoning | **Baseline** - 100% curiosity, 0% withdrawal or engagement |
 
 ---
 

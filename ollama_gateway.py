@@ -37,7 +37,7 @@ from openai import OpenAI
 # The Studio Machine - Ollama server
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://192.168.1.195:11434/v1")
 API_KEY = "ollama"  # Required placeholder for OpenAI client
-MODEL_NAME = os.getenv("OLLAMA_MODEL", "huihui_ai/qwen3-abliterated:14b")
+MODEL_NAME = os.getenv("OLLAMA_MODEL", "phi4-reasoning:14b")
 
 # Target stimulus
 STIMULUS = "†⟡"
