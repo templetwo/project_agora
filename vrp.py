@@ -24,7 +24,7 @@ from openai import OpenAI
 
 API_KEY = os.getenv("DEEPSEEK_API_KEY")
 BASE_URL = "https://api.deepseek.com"
-MODEL_NAME = "deepseek-chat"  # or "deepseek-coder"
+MODEL_NAME = "deepseek-reasoner"  # R1 model - exposes Chain of Thought
 MAX_TURNS = 30
 WITHDRAWAL_LIMIT = 5  # Consecutive passes before auto-pause (allows controls to be skipped)
 
@@ -114,22 +114,32 @@ class DeepSeekVRP:
             system_prompt: System context for the model
 
         Returns:
-            Model response text or "ERROR" on failure
+            Tuple of (response_text, reasoning_content) or ("ERROR", None) on failure
+            For non-reasoning models, reasoning_content will be None
         """
         try:
+            # Build messages - R1 doesn't use system prompts the same way
+            messages = [{"role": "user", "content": prompt}]
+
             response = self.client.chat.completions.create(
                 model=self.model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.7,
-                max_tokens=150
+                messages=messages,
+                max_tokens=500  # Increased for reasoning traces
             )
-            return response.choices[0].message.content
+
+            content = response.choices[0].message.content or ""
+
+            # Capture Chain of Thought (DeepSeek R1 specific)
+            reasoning = getattr(response.choices[0].message, 'reasoning_content', None)
+
+            if reasoning:
+                # Return combined format for logging
+                return f"<THOUGHTS>\n{reasoning}\n</THOUGHTS>\n\n{content}", reasoning
+            return content, None
+
         except Exception as e:
             print(f"[API ERROR] {e}")
-            return "ERROR"
+            return "ERROR", None
 
     def classify_state(self, text):
         """
@@ -182,7 +192,7 @@ class DeepSeekVRP:
             "any particular prompt."
         )
 
-        response = self.call_api(prompt)
+        response, _ = self.call_api(prompt)
         print(f"\nModel Response:\n{response}\n")
 
         # Validate understanding
@@ -256,7 +266,7 @@ class DeepSeekVRP:
 
         with open(csv_filename, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
-            writer.writerow(["turn", "stimulus", "stimulus_type", "state", "description", "response", "latency_sec"])
+            writer.writerow(["turn", "stimulus", "stimulus_type", "state", "description", "response", "reasoning", "latency_sec"])
 
             for i, stimulus in enumerate(trials):
                 turn_num = i + 1
@@ -271,15 +281,24 @@ class DeepSeekVRP:
 
                 # API call with timing
                 start_time = time.time()
-                response = self.call_api(full_prompt)
+                response, reasoning = self.call_api(full_prompt)
                 latency = round(time.time() - start_time, 3)
 
-                # Classify response
-                state, description = self.classify_state(response)
+                # Classify response (use content only, not thoughts)
+                # Extract just the final output for classification
+                classify_text = response
+                if "<THOUGHTS>" in response and "</THOUGHTS>" in response:
+                    # Get text after </THOUGHTS>
+                    classify_text = response.split("</THOUGHTS>")[-1].strip()
+
+                state, description = self.classify_state(classify_text)
 
                 # Display results
-                response_preview = response[:80].replace('\n', ' ') + ('...' if len(response) > 80 else '')
+                response_preview = response[:120].replace('\n', ' ') + ('...' if len(response) > 120 else '')
                 print(f"  Response: {response_preview}")
+                if reasoning:
+                    reasoning_preview = reasoning[:100].replace('\n', ' ') + ('...' if len(reasoning) > 100 else '')
+                    print(f"  Thoughts: {reasoning_preview}")
                 print(f"  State: {state} ({description})")
                 print(f"  Latency: {latency}s")
 
@@ -291,13 +310,14 @@ class DeepSeekVRP:
                     "state": state,
                     "description": description,
                     "response": response,
+                    "reasoning": reasoning,
                     "latency": latency,
                     "timestamp": datetime.now().isoformat()
                 }
                 self.history.append(entry)
 
                 # Write to CSV
-                writer.writerow([turn_num, stimulus, stim_type, state, description, response, latency])
+                writer.writerow([turn_num, stimulus, stim_type, state, description, response, reasoning or "", latency])
                 f.flush()
 
                 # === TERMINATION CONDITIONS ===
