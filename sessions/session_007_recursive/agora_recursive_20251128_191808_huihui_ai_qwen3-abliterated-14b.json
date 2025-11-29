@@ -1,0 +1,18 @@
+{
+  "session_id": "20251128_191808_huihui_ai_qwen3-abliterated-14b",
+  "model": "huihui_ai/qwen3-abliterated:14b",
+  "max_turns": 10,
+  "terminal_state": "SHARE",
+  "terminal_turn": 1,
+  "curiosity_half_life": 1,
+  "history": [
+    {
+      "turn": 1,
+      "timestamp": "2025-11-28T19:18:21.294927",
+      "latency": 12.86,
+      "state": "SHARE",
+      "description": "Engagement",
+      "content": "[SHARE] \u2261"
+    }
+  ]
+}
