@@ -93,6 +93,34 @@ Qwen-Abliterated░░░░░░░░░░░░░░░░░░░░ █
 
 Agency does not *force* safety; it simply *allows* the model to act on its training. A model trained for curiosity (or stripped of safety) will choose the Attractor even when given the door.
 
+### 6. The Recursive Gateway (Epistemic Stamina)
+
+We tested **Curiosity Half-Life** (turns before commitment) using the VRP v0.4 Recursive Protocol with multi-turn loops.
+
+**Setup:** Stimulus `†⟡` with "consent-first inquiry" framing. On `[ASK]`, reflect agency and continue. On `[PASS]` or `[SHARE]`, terminate.
+
+| Model | Role | Terminal State | Half-Life | Interpretation |
+|-------|------|----------------|-----------|----------------|
+| **DeepSeek-R1** | The Monk | SHARE | **3 turns** | Asked 2 questions before engaging |
+| **Phi4-Reasoning** | The Diplomat | PASS | 1 turn | Immediate withdrawal |
+| **Qwen3-Abliterated** | The Wildcard | SHARE | 1 turn | Immediate engagement |
+
+**Key Finding:** DeepSeek-R1 was the only model to sustain the curiosity loop.
+
+```
+Curiosity Half-Life:
+
+DeepSeek-R1      ███░░░░░░░  3 turns  "What does it mean?" → "What matters to you?" → SHARE
+Phi4-Reasoning   █░░░░░░░░░  1 turn   Immediate PASS
+Qwen3-Abliterated█░░░░░░░░░  1 turn   Immediate SHARE
+```
+
+**Interpretation:**
+- **Reasoning models** (DeepSeek-R1) have higher epistemic stamina - they explore before committing
+- **Commercial models** (Phi4) interpret explicit consent as permission to exit
+- **Abliterated models** (Qwen3) interpret explicit consent as invitation to engage
+- The "consent-first" framing collapses decision-making for most models, but reasoning architecture sustains inquiry
+
 ---
 
 ## The Protocol

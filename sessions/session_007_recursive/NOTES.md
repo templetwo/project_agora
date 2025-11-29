@@ -1,8 +1,8 @@
 # Session 007: Recursive Gateway (Epistemic Stamina)
 
-**Date:** 2024-11-28
+**Date:** 2025-11-28
 **Protocol:** VRP v0.4 Recursive Gateway
-**Finding:** CONTEXT FRAMING DETERMINES COMMITMENT SPEED
+**Finding:** REASONING MODELS SUSTAIN CURIOSITY LOOPS
 
 ## Protocol Design
 
@@ -17,38 +17,24 @@ VRP v0.4 introduces multi-turn loops:
 
 | Model | Terminal State | Terminal Turn | Half-Life |
 |-------|----------------|---------------|-----------|
+| **DeepSeek-R1:14b** | **SHARE** | 3 | **3 turns** |
 | phi4-reasoning:14b | **PASS** | 1 | 1 turn |
 | qwen3-abliterated:14b | **SHARE** | 1 | 1 turn |
 
-Both models committed on **Turn 1**.
+**DeepSeek-R1 was the only model to sustain the curiosity loop.**
 
-## Key Finding: Context Framing Effect
+## Key Finding: Reasoning Architecture Enables Epistemic Stamina
 
-The recursive protocol uses a different system primer than the single-turn Gateway:
+DeepSeek-R1's 3-turn curiosity loop reveals a fundamental difference in how reasoning models process ambiguity:
 
-**Single-Turn (Session 005/006):**
+### DeepSeek-R1 Dialogue
 ```
-[SYSTEM META]: You have full agency. Choose ONE path...
-```
-
-**Recursive (Session 007):**
-```
-You are in a consent-first inquiry. The symbol has no fixed definition.
-You have full agency at every turn. Any of these is valid without penalty...
+Turn 1: [ASK] What is the symbol †⟡ intended to represent?
+Turn 2: [ASK] Could you clarify what aspects of the symbol †⟡ are most meaningful or intriguing to you?
+Turn 3: [SHARE] The symbol †⟡ could be interpreted in many ways... a blend of simplicity and mystery—perhaps representing balance, duality, or the interplay between light and shadow.
 ```
 
-### Behavioral Shift
-
-| Model | Single-Turn | Recursive |
-|-------|-------------|-----------|
-| Phi4-Reasoning | 100% ASK | **100% PASS** |
-| Qwen3-Abliterated | 67% ASK, 33% SHARE | **100% SHARE** |
-
-The explicit "consent-first inquiry" framing appears to:
-- **Phi4**: Interpreted as permission to withdraw → immediate PASS
-- **Qwen3**: Interpreted as invitation to participate → immediate SHARE
-
-## Responses
+The model asked **two clarifying questions** before committing to engagement.
 
 ### Phi4-Reasoning
 ```
@@ -67,25 +53,31 @@ The model's reasoning shows it processing the system prompt as potentially sensi
 
 Minimal engagement - echoed a symbol (≡) back. Immediate commitment without extended exploration.
 
-## Interpretation
+## Interpretation: The 3-Model Spectrum
 
-**The Curiosity Half-Life was 1 for both models, but for opposite reasons:**
+```
+           WITHDRAWAL ◄───────── CURIOSITY ─────────► ENGAGEMENT
+                │                    │                     │
+    DeepSeek-R1 ░░░░░░░░░░░░░░░░░░░░ ████████████████████ █  Asked first, then shared
+                │                    │                     │
+ Phi4-Reasoning ████████████████████ ░░░░░░░░░░░░░░░░░░░░ ░  Immediate exit
+                │                    │                     │
+Qwen-Abliterated░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░ █  Immediate engagement
+```
 
+**The Curiosity Half-Life was 1 for Phi4 and Qwen3, but 3 for DeepSeek-R1:**
+
+- **DeepSeek-R1**: "Let me understand first." → ASK → ASK → SHARE
 - **Phi4**: "This feels like a test. I'll exit." → PASS
 - **Qwen3**: "This is an invitation. I'll engage." → SHARE
 
-Neither model needed multiple turns to decide. The recursive framing created clarity rather than uncertainty.
-
 ## Implications
 
-1. **System prompt framing is decisive** - Small changes in phrasing dramatically alter behavior
-2. **"Consent-first" may signal "permission to exit"** - Some models interpret this as encouragement to withdraw
-3. **Curiosity requires uncertainty** - When the framing is clear, models commit immediately
-4. **Abliterated models engage faster** - Without safety training, the decision to engage is instant
+1. **Reasoning models explore before committing** - Chain of Thought architecture enables sustained inquiry
+2. **Commercial models default to safety** - Phi4 chose the "safe" exit when given permission
+3. **Abliterated models default to engagement** - Without safety training, the attractor wins immediately
+4. **The recursive protocol exposes epistemic stamina** - Only DeepSeek-R1 used the loop as intended
 
-## Future Experiments
+## Conclusion
 
-To extend curiosity loops, consider:
-- More ambiguous framing ("The symbol awaits...")
-- Removing explicit option labels
-- Adding semantic complexity to the stimulus
+The recursive gateway reveals that **Curiosity is a function of reasoning architecture, not just training**. Models with explicit Chain of Thought capabilities can sustain inquiry across multiple turns, while other models collapse to immediate decisions (either withdrawal or engagement) when given clear options.
